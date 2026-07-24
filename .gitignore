@@ -1,0 +1,13 @@
+# Secrets
+.env
+
+# Data (large, re-downloadable from Kaggle)
+data/
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Local run outputs (curated copies committed under results/)
+outputs/
