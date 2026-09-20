@@ -1,12 +1,12 @@
 """Two pure-numpy MLPs (Adam + ReLU) that learn the SPY implied-vol surface.
 
-The MLP / Adam / feature machinery is ported almost verbatim from the reel
-    Social_media_automation/experimentation_machine/nn_learning_smile.py
+The MLP / Adam / feature machinery is ported almost verbatim from that experiment
+    an earlier experiment
 which fit a SYNTHETIC surface on ~1k grid points with full-batch gradient
 descent. Here we fit REAL multi-year option chains (hundreds of thousands of
 points), so the only substantive change is mini-batch training.
 
-Architectures (param counts match the reel exactly):
+Architectures (param counts match that experiment exactly):
     SMALL  [5, 4, 4, 1]      ->     49 params   (capacity-limited)
     BIG    [5, 128, 128, 1]  -> 17,409 params   (plenty of capacity)
 
@@ -87,7 +87,7 @@ def count_params(layers) -> int:
 
 
 # ---------------------------------------------------------------------------
-# MLP — Adam optimizer, ReLU hidden, linear output (ported from the reel)
+# MLP — Adam optimizer, ReLU hidden, linear output (ported from that experiment)
 # ---------------------------------------------------------------------------
 class MLP:
     """Adam MLP. activation='relu' or 'tanh'; l2 = weight-decay coefficient.

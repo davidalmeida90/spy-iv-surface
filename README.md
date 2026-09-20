@@ -4,7 +4,7 @@ Train two pure-numpy MLPs on **real** historical SPY EOD option chains (2010–2
 to learn the implied-volatility surface, validated **out-of-time** (train on older
 years, test on the years that came after).
 
-This is the honest, multi-year version of the `nn_learning_smile` reel, which had
+This is the honest, multi-year version of an earlier single-snapshot experiment, which had
 trained two small MLPs on a single live yfinance snapshot of a synthetic surface.
 
 ## Data
@@ -26,7 +26,7 @@ py -3 -m kaggle datasets download -d dudesurfin/spy-options-eod-volatility-surfa
 | File | Role |
 |---|---|
 | `loader.py` | Wide→long melt; OTM-only filter (puts below spot, calls above); drop zero-bid / wide-spread / junk-IV / 0-DTE rows. Output: one clean quote per row. |
-| `nets.py` | Two pure-numpy MLPs (Adam + ReLU), ported from the reel. Features `[x, τ, x², τ², x·τ]` where `x = ln(K/S)`. Target = total variance `w = σ²·τ`. |
+| `nets.py` | Two pure-numpy MLPs (Adam + ReLU), ported from that experiment. Features `[x, τ, x², τ², x·τ]` where `x = ln(K/S)`. Target = total variance `w = σ²·τ`. |
 | `train_iv_surface.py` | Chronological split, train both nets, report train/val/test IV-RMSE, plot loss curves + error-region heatmap. |
 
 ## Architectures
@@ -84,7 +84,7 @@ Out-of-time IV RMSE (trained on 400k subsampled OTM quotes from 2010–2020):
 1. **A 49-param net already captures the surface.** Going from 49 → 17,409
    params improves out-of-sample IV RMSE by only ~0.3–0.4 pp. The SPY IV surface
    is smooth in (log-moneyness, τ), so capacity barely matters — the opposite of
-   the engineered overfitting in the original reel (which forced it with noise +
+   the engineered overfitting in that earlier experiment (which forced it with noise +
    ~1k points).
 2. **No overfitting — and val/test error is *lower* than train.** With a decade
    and 400k points, neither net memorizes. Train error is *higher* than val/test
